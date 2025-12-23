@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/member/add}" method="post">
+  <input type="text" name="name"><br>
+  <input type="text" name="email"><br>
+  <input type="text" name="age"><br>
+  <button>가입자 생성</button>
+</form>
+</body>
+</html>

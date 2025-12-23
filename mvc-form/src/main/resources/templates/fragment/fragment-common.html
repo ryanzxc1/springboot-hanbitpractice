@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>프래그먼트</title>
+    <link th:href="@{/css/round-shadow-box.css}" rel ="stylesheet"/>
+
+</head>
+<body>
+<div th:replace = "~{fragment/common :: header}"></div>
+<p><span class = "round-shadow-box">하이하이</span></p>
+<div th:replace = "~{fragment/common :: footer}"></div>
+<br>
+</body>
+</html>
