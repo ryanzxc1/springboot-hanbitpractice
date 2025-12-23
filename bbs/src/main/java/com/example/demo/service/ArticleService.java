@@ -27,6 +27,12 @@ public class ArticleService {
         return articleRepository.findAll(pageable).map(this::mapToArticleDto);
     }
 
+    public ArticleDto findById(Long id){
+        return articleRepository
+                .findById(id)
+                .map(this::mapToArticleDto).orElseThrow();
+    }
+
     private ArticleDto mapToArticleDto(Article article) {
         return ArticleDto.builder()
                 .id(article.getId())
