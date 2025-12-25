@@ -6,7 +6,10 @@ import com.example.demo.dto.MemberForm;
 import com.example.demo.model.Member;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +52,32 @@ public class MemberService {
     public MemberDto findById(Long id) {
         return memberRepository.findById(id).map(this::mapToMemberDto).orElseThrow();
     }
+
+    public Page<MemberDto> findAll(Pageable pageable){
+        return memberRepository.findAll(pageable).map(this::mapToMemberDto);
+    }
+
+    public MemberDto patch(MemberForm memberForm) {
+        Member member = memberRepository.findById(memberForm.getId()).orElseThrow();
+
+        if(memberForm.getName()!=null)
+            member.setName(memberForm.getName());
+        if(memberForm.getPassword()!=null)
+            member.setPassword(memberForm.getPassword());
+        if(memberForm.getEmail()!=null)
+            member.setEmail(memberForm.getEmail());
+
+        memberRepository.save(member);
+        return mapToMemberDto(member);
+    }
+
+    @Transactional
+    public void deleteById(Long id){
+        Member member=memberRepository.findById(id).orElseThrow();
+        articleRepository.deleteAllByMember(member);
+        memberRepository.delete(member);
+    }
+
 
     public MemberDto mapToMemberDto(Member member) {//엔티티 -> dto변환 메서드
         return MemberDto.builder()
